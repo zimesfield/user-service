@@ -1,0 +1,129 @@
+openapi: "3.0.0"
+info:
+  title: User Management Contract
+  version: 2.0.0
+
+tags:
+  - name: UserResource
+    description: User information
+paths:
+  /users:
+    post:
+      operationId: addUser
+      tags:
+        - UserResource
+      description: Register to have access to our system
+      requestBody:
+        description: Input user information that will be submitted
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+
+      responses:
+        "200":
+          description: Registration was successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+        "403":
+          description: You do not have access to this resource
+        "405":
+          description: This is request is not allowed
+    get:
+      operationId: list
+      tags:
+        - UserResource
+      description: Return the list of registered users
+      responses:
+        "200":
+          description: returns the list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Request is empty
+        "405":
+          description: Not allowed to make this request
+
+  /users/{id}:
+    get:
+      operationId: view
+      tags:
+        - UserResource
+      description: Returns a single user information
+      parameters:
+        - name: id
+          in: path
+          description: the id of the user to fetch
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        "200":
+          description: returns the list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Request is empty
+        "405":
+          description: Not allowed to make this request
+
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      description: Details to create a new user
+      required:
+        - firstName
+        - lastName
+        - phone
+        - email
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        dob:
+          type: string
+          format: date-time
+          example: '2000-07-09T19:44:13.720Z'
+        phone:
+          type: string
+          example: '07032543523'
+        email:
+          type: string
+          example: "joh.doe@test.com"
+
+    UserResponse:
+      type: object
+      description: User detail response
+      properties:
+        id:
+          type: number
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dob:
+          type: string
+          format: date-time
+        phone:
+          type: string
+        email:
+          type: string
+
+
