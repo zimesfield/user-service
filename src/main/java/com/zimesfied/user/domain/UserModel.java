@@ -4,17 +4,18 @@ package com.zimesfied.user.domain;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Builder
 public class UserModel {
 
+    private Long id;
     private String firstName;
 
     private String lastName;
 
-    private LocalDateTime dob;
+    private OffsetDateTime dob;
 
     private String phone;
 
